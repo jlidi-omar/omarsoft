@@ -792,9 +792,9 @@ export const translations = {
    • admin.nav : libellés du menu admin (admin.products etc. sont des groupes)
    • products.categories.general : catégorie par défaut de la base           */
 const NAV = {
-  fr: { dashboard: 'Tableau de bord', products: 'Produits', services: 'Services', media: 'Galerie', documents: 'Documents', requests: 'Demandes', settings: 'Paramètres' },
-  ar: { dashboard: 'لوحة التحكم', products: 'المنتجات', services: 'الخدمات', media: 'المعرض', documents: 'الوثائق', requests: 'الطلبات', settings: 'الإعدادات' },
-  en: { dashboard: 'Dashboard', products: 'Products', services: 'Services', media: 'Gallery', documents: 'Documents', requests: 'Requests', settings: 'Settings' },
+  fr: { dashboard: 'Tableau de bord', products: 'Produits', services: 'Services', media: 'Galerie', documents: 'Documents', requests: 'Demandes', settings: 'Paramètres', menu: 'Menu du site' },
+  ar: { dashboard: 'لوحة التحكم', products: 'المنتجات', services: 'الخدمات', media: 'المعرض', documents: 'الوثائق', requests: 'الطلبات', settings: 'الإعدادات', menu: 'قائمة الموقع' },
+  en: { dashboard: 'Dashboard', products: 'Products', services: 'Services', media: 'Gallery', documents: 'Documents', requests: 'Requests', settings: 'Settings', menu: 'Site menu' },
 }
 const GENERAL = { fr: 'Divers', ar: 'متفرقات', en: 'Other' }
 for (const l of ['fr', 'ar', 'en']) {

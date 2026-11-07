@@ -5,11 +5,18 @@ import { useCart }  from '../context/CartContext'
 import { useLang }  from '../context/LanguageContext'
 import { openWhatsApp } from '../utils/config'
 
+const TX = {
+  fr: { cart: 'Panier devis', one: 'produit', many: 'produits', empty: 'Panier vide', hintEmpty: 'Ajoutez des produits depuis le catalogue pour demander un devis', unit: 'unité', total: 'Total estimé', note: '* Prix indicatifs, sous réserve de disponibilité', name: 'Votre nom *', phone: 'Votre téléphone', needName: 'Indiquez votre nom pour envoyer la demande.', send: 'Envoyer la demande (WhatsApp)', clear: 'Vider le panier' },
+  ar: { cart: 'سلة عروض الأسعار', one: 'منتج', many: 'منتجات', empty: 'السلة فارغة', hintEmpty: 'أضف منتجات من الكتالوج لطلب عرض سعر', unit: 'للوحدة', total: 'المجموع التقديري', note: '* الأسعار تقديرية وتخضع لتوفر المنتج', name: 'اسمك *', phone: 'هاتفك', needName: 'أدخل اسمك لإرسال الطلب.', send: 'إرسال الطلب (واتساب)', clear: 'إفراغ السلة' },
+  en: { cart: 'Quote cart', one: 'product', many: 'products', empty: 'Your cart is empty', hintEmpty: 'Add products from the catalog to request a quote', unit: 'each', total: 'Estimated total', note: '* Indicative prices, subject to availability', name: 'Your name *', phone: 'Your phone', needName: 'Please enter your name to send the request.', send: 'Send the request (WhatsApp)', clear: 'Clear cart' },
+}
+
 const fmt = n => new Intl.NumberFormat('fr-TN',{minimumFractionDigits:3}).format(n) + ' TND'
 
 export default function QuoteCart() {
   const { items, open, count, total, setOpen, setQty, removeItem, clearCart, buildWhatsAppMessage, buildRequestText } = useCart()
-  const { isRTL } = useLang()
+  const { isRTL, lang } = useLang()
+  const x = TX[lang] || TX.fr
   const [name,  setName]  = useState('')
   const [phone, setPhone] = useState('')
   const [hint,  setHint]  = useState(false)
@@ -33,7 +40,7 @@ export default function QuoteCart() {
     <>
       {/* Floating button */}
       <div style={{position:'fixed',bottom:'88px',zIndex:9998,...side}}>
-        <button onClick={()=>setOpen(!open)} aria-label="Panier devis"
+        <button onClick={()=>setOpen(!open)} aria-label={x.cart}
           style={{
             width:'56px',height:'56px',borderRadius:'50%',
             background:'#0a1628',color:'#fff',border:'none',cursor:'pointer',
@@ -73,8 +80,8 @@ export default function QuoteCart() {
           <div style={{display:'flex',alignItems:'center',gap:'10px'}}>
             <ShoppingCart size={18} style={{color:'#c9a227'}}/>
             <div>
-              <p style={{color:'#fff',fontWeight:700,fontSize:'14px',margin:0}}>Panier devis</p>
-              <p style={{color:'rgba(255,255,255,.45)',fontSize:'12px',margin:0}}>{count} produit{count!==1?'s':''}</p>
+              <p style={{color:'#fff',fontWeight:700,fontSize:'14px',margin:0}}>{x.cart}</p>
+              <p style={{color:'rgba(255,255,255,.45)',fontSize:'12px',margin:0}}>{count} {count===1?x.one:x.many}</p>
             </div>
           </div>
           <button onClick={()=>setOpen(false)} style={{background:'rgba(255,255,255,.1)',border:'none',borderRadius:'50%',width:'32px',height:'32px',cursor:'pointer',color:'rgba(255,255,255,.7)',display:'flex',alignItems:'center',justifyContent:'center'}}>
@@ -87,8 +94,8 @@ export default function QuoteCart() {
           {items.length===0?(
             <div style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',height:'100%',gap:'12px',color:'#94a3b8'}}>
               <ShoppingCart size={44} style={{opacity:.2}}/>
-              <p style={{fontWeight:600,fontSize:'14px'}}>Panier vide</p>
-              <p style={{fontSize:'12px',textAlign:'center',maxWidth:'200px',lineHeight:1.5}}>Ajoutez des produits depuis le catalogue pour générer un devis</p>
+              <p style={{fontWeight:600,fontSize:'14px'}}>{x.empty}</p>
+              <p style={{fontSize:'12px',textAlign:'center',maxWidth:'200px',lineHeight:1.5}}>{x.hintEmpty}</p>
             </div>
           ):items.map(item=>(
             <div key={item.id} style={{display:'flex',gap:'12px',padding:'16px',borderBottom:'1px solid #f1f5f9'}}>
@@ -97,7 +104,7 @@ export default function QuoteCart() {
               </div>
               <div style={{flex:1,minWidth:0}}>
                 <p style={{fontWeight:700,fontSize:'13px',color:'#0f172a',margin:'0 0 2px',lineHeight:1.3,display:'-webkit-box',WebkitLineClamp:2,WebkitBoxOrient:'vertical',overflow:'hidden'}}>{item.name}</p>
-                <p style={{fontSize:'11px',color:'#94a3b8',margin:'0 0 8px'}}>{fmt(item.price_tnd)} / unité</p>
+                <p style={{fontSize:'11px',color:'#94a3b8',margin:'0 0 8px'}}>{fmt(item.price_tnd)} / {x.unit}</p>
                 <div style={{display:'flex',alignItems:'center',gap:'8px'}}>
                   <button onClick={()=>setQty(item.id,item.qty-1)} style={{width:'26px',height:'26px',borderRadius:'8px',border:'1px solid #e2e8f0',background:'#fff',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',color:'#475569'}}><Minus size={12}/></button>
                   <span style={{fontWeight:700,fontSize:'14px',minWidth:'20px',textAlign:'center'}}>{item.qty}</span>
@@ -116,22 +123,22 @@ export default function QuoteCart() {
         {items.length>0&&(
           <div style={{padding:'16px 20px',borderTop:'1px solid #f1f5f9',display:'flex',flexDirection:'column',gap:'10px'}}>
             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'12px 0',borderBottom:'1px solid #f1f5f9'}}>
-              <span style={{fontWeight:600,color:'#64748b',fontSize:'14px'}}>Total estimé</span>
+              <span style={{fontWeight:600,color:'#64748b',fontSize:'14px'}}>{x.total}</span>
               <span style={{fontWeight:900,fontSize:'20px',color:'#0a1628'}}>{fmt(total)}</span>
             </div>
-            <p style={{fontSize:'11px',color:'#94a3b8',textAlign:'center',margin:0}}>* Prix indicatifs, sous réserve de disponibilité</p>
-            <input value={name} onChange={e=>{setName(e.target.value);setHint(false)}} placeholder="Votre nom *" autoComplete="name"
+            <p style={{fontSize:'11px',color:'#94a3b8',textAlign:'center',margin:0}}>{x.note}</p>
+            <input value={name} onChange={e=>{setName(e.target.value);setHint(false)}} placeholder={x.name} autoComplete="name"
               style={{width:'100%',padding:'11px 12px',borderRadius:'12px',fontSize:'14px',fontFamily:'inherit',outline:'none',color:'#0f172a',background:'#fff',border:hint?'1px solid #ef4444':'1px solid #e2e8f0'}} />
-            <input value={phone} onChange={e=>setPhone(e.target.value)} placeholder="Votre téléphone" type="tel" autoComplete="tel"
+            <input value={phone} onChange={e=>setPhone(e.target.value)} placeholder={x.phone} type="tel" autoComplete="tel"
               style={{width:'100%',padding:'11px 12px',borderRadius:'12px',fontSize:'14px',fontFamily:'inherit',outline:'none',color:'#0f172a',background:'#fff',border:'1px solid #e2e8f0'}} />
-            {hint && <p style={{fontSize:'12px',color:'#ef4444',margin:0}}>Indiquez votre nom pour envoyer la demande.</p>}
+            {hint && <p style={{fontSize:'12px',color:'#ef4444',margin:0}}>{x.needName}</p>}
             <button onClick={send} disabled={busy}
               style={{background:'#25D366',color:'#fff',border:'none',borderRadius:'14px',padding:'13px',fontWeight:700,fontSize:'14px',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',gap:'8px',opacity:busy?.7:1}}>
-              <Send size={16}/>Envoyer la demande (WhatsApp)
+              <Send size={16}/>{x.send}
             </button>
             <button onClick={clearCart} style={{background:'none',border:'none',color:'#94a3b8',fontSize:'12px',fontWeight:600,cursor:'pointer',padding:'4px'}}
               onMouseEnter={e=>e.currentTarget.style.color='#ef4444'} onMouseLeave={e=>e.currentTarget.style.color='#94a3b8'}>
-              Vider le panier
+              {x.clear}
             </button>
           </div>
         )}

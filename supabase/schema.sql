@@ -254,8 +254,9 @@ END $$;
 CREATE POLICY "public_read_products" ON products FOR SELECT TO anon, authenticated USING (is_visible = true);
 CREATE POLICY "public_read_services" ON services FOR SELECT TO anon, authenticated USING (is_visible = true);
 CREATE POLICY "public_read_media"    ON media_content FOR SELECT TO anon, authenticated USING (is_visible = true);
--- Public : uniquement les chiffres de la page d'accueil (stats_*), rien d'autre
-CREATE POLICY "public_read_stats"    ON company_settings FOR SELECT TO anon, authenticated USING (key LIKE 'stats\_%');
+-- Public : uniquement les chiffres d'accueil (stats_*) et la configuration du menu (menu_*), rien d'autre
+CREATE POLICY "public_read_site_settings" ON company_settings FOR SELECT TO anon, authenticated
+    USING (key LIKE 'stats\_%' OR key LIKE 'menu\_%');
 
 -- Public : peut envoyer une demande (toujours en statut « pending »)
 CREATE POLICY "public_insert_requests" ON service_requests FOR INSERT TO anon, authenticated

@@ -67,7 +67,8 @@ export function LanguageProvider({ children }) {
    */
   function getName(obj) {
     if (!obj) return ''
-    return obj[`name_${lang}`] || obj['name_fr'] || ''
+    // name_* (produits, services) ou title_* (galerie)
+    return obj[`name_${lang}`] || obj[`title_${lang}`] || obj['name_fr'] || obj['title_fr'] || ''
   }
 
   function getDesc(obj) {

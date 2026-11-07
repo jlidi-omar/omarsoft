@@ -6,6 +6,8 @@ import { useCart }     from '../context/CartContext'
 import { formatPrice } from '../utils/currencyFormatter'
 import { openWhatsApp, buildProductQuoteMessage } from '../utils/config'
 
+const BTN = { fr: { add: 'Devis', in: 'Ajouté' }, ar: { add: 'عرض سعر', in: 'تمت الإضافة' }, en: { add: 'Quote', in: 'Added' } }
+
 function StockBadge({ qty, t }) {
   if (qty<=0) return <span className="px-2 py-0.5 text-xs font-semibold bg-red-100 text-red-600 rounded-full">{t('products.outOfStock')}</span>
   if (qty<=3) return <span className="px-2 py-0.5 text-xs font-semibold bg-amber-100 text-amber-700 rounded-full">{t('products.lowStock')}</span>
@@ -49,7 +51,7 @@ function ProductCard({ product, lang, t, getName }) {
                 inCart ? 'bg-emerald-500 hover:bg-emerald-600 text-white' : 'bg-midnight hover:bg-midnight-700 text-white hover:-translate-y-0.5'
               }`}
             >
-              {inCart ? <><Check size={13}/>Ajouté</> : <><ShoppingCart size={13}/>Devis</>}
+              {inCart ? <><Check size={13}/>{BTN[lang]?.in || BTN.fr.in}</> : <><ShoppingCart size={13}/>{BTN[lang]?.add || BTN.fr.add}</>}
             </button>
             <button
               onClick={()=>openWhatsApp(buildProductQuoteMessage({productName:name, priceTND:product.price_tnd}))}

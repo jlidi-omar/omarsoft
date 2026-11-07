@@ -4,6 +4,7 @@ import { AuthProvider }     from './context/AuthContext'
 import { LanguageProvider } from './context/LanguageContext'
 import { ThemeProvider }    from './context/ThemeContext'
 import { CartProvider }     from './context/CartContext'
+import { MenuProvider }     from './context/MenuContext'
 import PrivateRoute         from './components/PrivateRoute'
 import Home                 from './pages/Home'
 
@@ -17,6 +18,7 @@ const ManageMedia       = lazy(() => import('./pages/Admin/ManageMedia'))
 const DocumentGenerator = lazy(() => import('./pages/Admin/DocumentGenerator'))
 const ManageRequests    = lazy(() => import('./pages/Admin/ManageRequests'))
 const AdminSettings     = lazy(() => import('./pages/Admin/Settings'))
+const ManageMenu        = lazy(() => import('./pages/Admin/ManageMenu'))
 
 const Loading = () => (
   <div style={{ minHeight: '100vh', display: 'grid', placeItems: 'center', background: '#0a1628' }}>
@@ -34,6 +36,7 @@ export default function App() {
         <LanguageProvider>
           <AuthProvider>
             <CartProvider>
+              <MenuProvider>
               <Suspense fallback={<Loading />}>
                 <Routes>
                   <Route path="/"                element={<Home />} />
@@ -44,10 +47,12 @@ export default function App() {
                   <Route path="/admin/media"     element={guard(<ManageMedia />)} />
                   <Route path="/admin/documents" element={guard(<DocumentGenerator />)} />
                   <Route path="/admin/requests"  element={guard(<ManageRequests />)} />
+                  <Route path="/admin/menu"      element={guard(<ManageMenu />)} />
                   <Route path="/admin/settings"  element={guard(<AdminSettings />)} />
                   <Route path="*"                element={<Navigate to="/" replace />} />
                 </Routes>
               </Suspense>
+              </MenuProvider>
             </CartProvider>
           </AuthProvider>
         </LanguageProvider>

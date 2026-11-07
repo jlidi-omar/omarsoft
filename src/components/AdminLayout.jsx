@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
-import { LayoutDashboard, Package, Wrench, Image, FileText, Inbox, Settings, LogOut, Menu, X, Monitor, ChevronRight, Bell } from 'lucide-react'
+import { LayoutDashboard, Package, Wrench, Image, FileText, Inbox, Settings, PanelLeft, LogOut, Menu, X, Monitor, ChevronRight, Bell } from 'lucide-react'
 import { useAuth }  from '../context/AuthContext'
 import { useLang }  from '../context/LanguageContext'
 import { supabase } from '../lib/supabaseClient'
@@ -13,6 +13,7 @@ const NAV = [
   { to:'/admin/media',     label:'media',      icon:Image },
   { to:'/admin/documents', label:'documents',  icon:FileText },
   { to:'/admin/requests',  label:'requests',   icon:Inbox },
+  { to:'/admin/menu',      label:'menu',       icon:PanelLeft },
   { to:'/admin/settings',  label:'settings',   icon:Settings },
 ]
 

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Monitor, Phone, Mail, MapPin, MessageCircle, Send, CheckCircle2 } from 'lucide-react'
+import { Phone, Mail, MapPin, MessageCircle, Send, CheckCircle2 } from 'lucide-react'
 import { useLang } from '../context/LanguageContext'
 import { supabase } from '../lib/supabaseClient'
 import { openWhatsApp, config } from '../utils/config'
@@ -108,9 +108,7 @@ export default function Footer() {
           {/* Brand + About */}
           <div className="lg:col-span-1">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-xl bg-ocean flex items-center justify-center flex-shrink-0">
-                <Monitor size={20} className="text-white" />
-              </div>
+              <img src="/logo.png" alt="OmarSoft" className="w-12 h-12 object-contain flex-shrink-0" />
               <div>
                 <div className="font-extrabold text-lg leading-none">
                   <span className="text-white">OMAR</span>
