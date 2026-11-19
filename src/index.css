@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Base ────────────────────────────────────────────────── */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-white text-gray-900 antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  /* Arabic direction */
+  [dir="rtl"] body,
+  [dir="rtl"] * {
+    font-family: 'Noto Kufi Arabic', 'Noto Sans Arabic', sans-serif;
+  }
+  [dir="ltr"] body,
+  [dir="ltr"] * {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  /* Titres : Sora (géométrique, lisible en petit), corps : Inter. En arabe, Noto Kufi pour tout. */
+  [dir="ltr"] :is(h1, h2, h3) {
+    font-family: 'Sora', 'Inter', system-ui, sans-serif;
+    letter-spacing: -0.015em;
+  }
+  /* Focus clavier visible partout (contraste ≥ 3:1 sur fond clair comme sur fond sombre) */
+  :focus-visible {
+    outline: 3px solid #0077b6;
+    outline-offset: 2px;
+  }
+  aside :focus-visible,
+  footer :focus-visible,
+  [class*="bg-midnight"] :focus-visible,
+  [class*="bg-midnight"]:focus-visible {
+    outline-color: #48cae4;
+  }
+}
+
+/* ─── Utilities ───────────────────────────────────────────── */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ─── Print Styles ────────────────────────────────────────── */
+@media print {
+  /* Hide everything except the document */
+  body > * {
+    display: none !important;
+  }
+  .print-document-wrapper {
+    display: block !important;
+  }
+  #print-root {
+    display: block !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+    background: white;
+  }
+  /* A4 page settings */
+  @page {
+    size: A4 portrait;
+    margin: 10mm 12mm;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+  /* Prevent page breaks inside important elements */
+  .avoid-break {
+    page-break-inside: avoid;
+  }
+}

@@ -1,0 +1,63 @@
+OMARSOFT — MISE À JOUR v3.1
+===========================
+
+NOUVEAUTÉS
+----------
+1. MENU ADMINISTRABLE : Admin > « Menu du site »
+   - Disposition au choix : menu VERTICAL latéral (à gauche, à droite en arabe)
+     ou menu HORIZONTAL en haut de page. Sur mobile et tablette, le menu reste
+     un tiroir dans les deux cas.
+   - Pour chaque entrée : monter / descendre, masquer / afficher, nom en
+     français, arabe et anglais (vide = nom par défaut).
+   - « Ajouter un lien » : adresse interne (#contact), page (/page), site
+     (https://...), téléphone (tel:+21654421123) ou e-mail (mailto:...).
+     Les adresses dangereuses (javascript:) sont refusées.
+   - Bouton « Par défaut » pour tout remettre à zéro.
+
+2. EXEMPLES de catalogue et de galerie (à remplacer plus tard)
+   - 8 produits et 6 images « Réalisations », avec des illustrations marquées
+     EXEMPLE. Les noms, caractéristiques, PRIX et STOCKS sont INVENTÉS.
+   - Ne les laissez pas en ligne tels quels.
+
+3. CORRECTIONS
+   - L'entrée « Formations » du menu ne menait nulle part : elle ouvre
+     maintenant l'onglet Formations.
+   - Les titres des images de la galerie ne s'affichaient jamais.
+   - Le panier devis et le bouton « Devis » sont traduits en FR / AR / EN.
+   - Le pied de page utilise votre logo.
+
+À FAIRE, DANS CET ORDRE
+-----------------------
+A. Copier le projet par-dessus votre dossier GitHub, puis envoyer :
+
+   robocopy "C:\Projets\omarsoft-website" "D:\IT-JUIN 2026\ME\OMARSHARE\OMARSOFT\omarsoft-website-v2\omarsoft-website" /E /XD node_modules .git dist
+
+   cd "D:\IT-JUIN 2026\ME\OMARSHARE\OMARSOFT\omarsoft-website-v2\omarsoft-website"
+   git add -A
+   git commit -m "v3.1: menu administrable, exemples, corrections"
+   git pull origin main --rebase
+   git push origin main
+
+   (Adaptez les deux chemins. Attendez l'état « Ready » sur Vercel.)
+
+B. Supabase > SQL Editor > New query : coller supabase\schema.sql > Run.
+   OBLIGATOIRE pour le menu : la règle d'accès a changé (le public doit pouvoir
+   LIRE la configuration du menu). Sans cela, le site garde le menu latéral par
+   défaut. Le script est sans danger à relancer.
+
+C. (Facultatif) Exemples : SQL Editor > coller supabase\catalogue-exemples.sql > Run.
+   Les images viennent du dossier public\examples (envoyé à l'étape A).
+   Relançable sans doublon.
+
+D. Remplacer les exemples : Admin > Produits (modifier, ajouter une vraie
+   photo, corriger prix et stock) et Admin > Galerie (supprimer les illustrations,
+   ajouter vos vraies photos).
+   Pour TOUT supprimer d'un coup : supabase\supprimer-exemples.sql
+   (ne supprime que ce qui est encore marqué EXEMPLE ; ce que vous avez modifié
+   est conservé).
+
+E. Vérifier : https://www.omarsoft.tn/admin/menu : changez la disposition,
+   enregistrez, rechargez le site.
+
+NOTE : Guide-MiseAJour-v3.1.pdf décrit cette mise à jour pas à pas (3 pages). Le guide
+complet (Guide-Installation-OmarSoft.pdf) décrit la v3.0 : il reste valable.
